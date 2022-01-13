@@ -16,12 +16,20 @@ export interface Character {
   skills: Skill[]
 }
 
+export interface Card {
+  name: string
+  description: string
+  cost: number
+}
+
 export interface Player {
   name: string
   character: Character
   health: number
   combatPoints: number
   statusEffects: StatusEffect[]
+  hand: Card[]
+  maxHandSize: number
 }
 
 export type Action =
@@ -43,11 +51,37 @@ export type Action =
       player: number
     }
   | {
+      type: 'force-next-phase'
+    }
+  | {
       type: 'add-player'
       player: Player
     }
 
+export type Error =
+  | {
+      errorType: 'main-phase-card-on-roll-phase'
+      message: 'Cannot play Main phase cards during the Roll phase'
+    }
+  | {
+      errorType: 'roll-phase-card-on-main-phase'
+      message: 'Cannot play Roll phase cards during the Main phase'
+    }
+
+export enum Phase {
+  Upkeep = 'Upkeep',
+  Income = 'Income',
+  Main1 = 'Main (1)',
+  OffensiveRoll = 'Offensive Roll',
+  TargetingRoll = 'Targeting Roll',
+  DefensiveRoll = 'Defensive Roll',
+  Main2 = 'Main (2)',
+  Discard = 'Discard',
+}
+
 export interface GameState {
+  turn: number
+  phase: Phase
   players: Player[]
   currentPlayer: number
 }

@@ -1,8 +1,10 @@
-import { Character, GameState } from '~/types'
+import { Character, GameState, Phase } from '~/types'
 import { GameEngine } from '..'
 
 describe('Player', () => {
   const initialState: GameState = {
+    turn: 1,
+    phase: Phase.Upkeep,
     players: [],
     currentPlayer: 0,
   }
@@ -23,6 +25,8 @@ describe('Player', () => {
         health: 50,
         combatPoints: 2,
         statusEffects: [],
+        hand: [],
+        maxHandSize: 6,
       },
     })
 
