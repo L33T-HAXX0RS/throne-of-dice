@@ -9,7 +9,11 @@ describe('Turns', () => {
     players: [
       {
         name: 'Bruce',
-        character: { name: 'Batman', abilities: [] },
+        character: {
+          name: 'Batman',
+          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
+          abilities: [],
+        },
         health: 50,
         combatPoints: 2,
         statusEffects: [],
@@ -19,7 +23,11 @@ describe('Turns', () => {
       },
       {
         name: 'Dick',
-        character: { name: 'Robin', abilities: [] },
+        character: {
+          name: 'Robin',
+          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
+          abilities: [],
+        },
         health: 50,
         combatPoints: 2,
         statusEffects: [],
@@ -29,7 +37,11 @@ describe('Turns', () => {
       },
       {
         name: 'Clark',
-        character: { name: 'Superman', abilities: [] },
+        character: {
+          name: 'Superman',
+          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
+          abilities: [],
+        },
         health: 50,
         combatPoints: 2,
         statusEffects: [],
@@ -39,7 +51,11 @@ describe('Turns', () => {
       },
       {
         name: 'Diana',
-        character: { name: 'Wonder Woman', abilities: [] },
+        character: {
+          name: 'Wonder Woman',
+          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
+          abilities: [],
+        },
         health: 50,
         combatPoints: 2,
         statusEffects: [],

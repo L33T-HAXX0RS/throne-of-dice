@@ -9,7 +9,11 @@ describe('Phases', () => {
     players: [
       {
         name: 'Jelan',
-        character: { name: 'A', abilities: [] },
+        character: {
+          name: 'A',
+          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
+          abilities: [],
+        },
         health: 50,
         combatPoints: 2,
         statusEffects: [],
@@ -19,7 +23,11 @@ describe('Phases', () => {
       },
       {
         name: 'Don',
-        character: { name: 'B', abilities: [] },
+        character: {
+          name: 'B',
+          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
+          abilities: [],
+        },
         health: 50,
         combatPoints: 2,
         statusEffects: [],

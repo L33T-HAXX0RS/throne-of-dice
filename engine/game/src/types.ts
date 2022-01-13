@@ -5,13 +5,14 @@ export enum RollType {
 
 export type AbilityType = 'passive' | 'offensive' | 'defensive' | 'ultimate'
 
-export type DicePattern = number[]
+export type DieType = string
+
+export type DicePattern = DieType[]
 
 export interface Ability {
   type: AbilityType
   name: string
-  description: string
-  pattern: DicePattern[]
+  patterns: DicePattern[]
 }
 
 export interface StatusEffect {
@@ -21,6 +22,7 @@ export interface StatusEffect {
 export interface Character {
   name: string
   abilities: Ability[]
+  dieTypes: [DieType, DieType, DieType, DieType, DieType, DieType]
 }
 
 export interface Card {

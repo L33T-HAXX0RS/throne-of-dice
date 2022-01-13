@@ -12,6 +12,7 @@ describe('Player', () => {
 
   const character: Character = {
     name: 'Dummy',
+    dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
     abilities: [],
   }
 
