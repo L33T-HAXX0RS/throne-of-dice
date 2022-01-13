@@ -21,18 +21,24 @@ A dice battle game.
 yarn install
 ```
 
-2. Copy `.env.example` and modify any values as necessary
+2. Install the Husky hooks
+
+```sh
+npx husky install
+```
+
+3. Copy `.env.example` and modify any values as necessary
    ```sh
    cp .env.example .env
    ```
 
-3. Start the database.
+4. Start the database.
    ```sh
    docker compose up -d
    ```
-4. Open `app.code-workspace` with VS Code.
-5. Press `F5` or go to the `Run and Debug` section and launch `Debug (workspace)`.
-6. This will launch the server and the client. The debugger automatically pauses when the server starts. Click the `Continue` button to continue launching the app.
+5. Open `app.code-workspace` with VS Code.
+6. Press `F5` or go to the `Run and Debug` section and launch `Debug (workspace)`.
+7. This will launch the server and the client. The debugger automatically pauses when the server starts. Click the `Continue` button to continue launching the app.
 
 ## Technologies
 
