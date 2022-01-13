@@ -25,7 +25,9 @@
     "extends": "@config/eslint-config-server"
   },
   "prettier": "@config/prettier",
-  "dependencies": {},
+  "dependencies": {
+    "@utility/common": "*"
+  },
   "devDependencies": {
     "@config/eslint-config-server": "*",
     "@config/prettier": "*",

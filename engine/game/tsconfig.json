@@ -9,9 +9,15 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@utility/common": ["../../utility/common/src"],
+      "@utility/common/*": ["../../utility/common/src/*"]
     }
   },
   "include": ["types/*", "src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../../utility/common"
+    }
+  ]
 }

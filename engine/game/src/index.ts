@@ -1,17 +1,18 @@
-import { Action, GameState, Phase } from './types'
+import { Result } from '@utility/common/result'
+import { Action, Error, GameState, Phase } from './types'
 
 export interface IGameEngine {
-  execute(state: GameState, action: Action): GameState
+  execute(state: GameState, action: Action): Result<GameState, Error>
 }
 
 export class GameEngine implements IGameEngine {
-  execute(state: GameState, action: Action): GameState {
+  execute(state: GameState, action: Action): Result<GameState, Error> {
     switch (action.type) {
       case 'add-player':
-        return {
+        return Result.Ok({
           ...state,
           players: [...state.players, action.player],
-        }
+        })
 
       case 'force-next-phase': {
         const phaseOrder = [
@@ -26,20 +27,20 @@ export class GameEngine implements IGameEngine {
         ]
         const nextPhase =
           phaseOrder[(phaseOrder.indexOf(state.phase) + 1) % phaseOrder.length]
-        return {
+        return Result.Ok({
           ...state,
           phase: nextPhase,
           turn: nextPhase === phaseOrder[0] ? state.turn + 1 : state.turn,
-        }
+        })
       }
 
       case 'force-next-turn':
-        return {
+        return Result.Ok({
           ...state,
           turn: state.turn + 1,
           phase: Phase.Upkeep,
-        }
+        })
     }
-    return state
+    return Result.Ok(state)
   }
 }
