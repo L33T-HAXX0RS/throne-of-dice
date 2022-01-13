@@ -32,6 +32,13 @@ export class GameEngine implements IGameEngine {
           turn: nextPhase === phaseOrder[0] ? state.turn + 1 : state.turn,
         }
       }
+
+      case 'force-next-turn':
+        return {
+          ...state,
+          turn: state.turn + 1,
+          phase: Phase.Upkeep,
+        }
     }
     return state
   }

@@ -51,11 +51,14 @@ export type Action =
       player: number
     }
   | {
+      type: 'add-player'
+      player: Player
+    }
+  | {
       type: 'force-next-phase'
     }
   | {
-      type: 'add-player'
-      player: Player
+      type: 'force-next-turn'
     }
 
 export type Error =
