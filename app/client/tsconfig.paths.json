@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"],
+      "@utility/common/*": ["../../utility/common/src/*"],
+      "@utility/common": ["../../utility/common/src"]
+    }
+  }
+}

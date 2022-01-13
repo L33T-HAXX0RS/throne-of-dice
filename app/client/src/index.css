@@ -1,0 +1,17 @@
+body {
+  margin: 0;
+  font-family: var(--app-primary-font, 'Arial, Helvetica, sans-serif');
+  color: var(--app-text-color, #ffffff);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--app-link-color, #61dafb);
+  text-decoration: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

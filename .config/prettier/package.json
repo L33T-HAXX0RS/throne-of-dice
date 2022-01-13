@@ -1,0 +1,18 @@
+{
+  "name": "@config/prettier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "scripts": {
+    "clean": "exit 0",
+    "rebuild": "exit 0",
+    "lint": "exit 0",
+    "lint:fix": "exit 0",
+    "test": "exit 0",
+    "test:unit": "exit 0",
+    "test:integration": "exit 0",
+    "test:ci": "exit 0",
+    "format": "prettier --write ."
+  }
+}

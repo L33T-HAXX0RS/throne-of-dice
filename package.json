@@ -1,0 +1,62 @@
+{
+  "name": "throne-of-dice",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "husky install && node ./scripts/inject-project-references.js",
+    "format": "yarn workspaces run format",
+    "new": "node ./scripts/new-package.js",
+    "adr": "node ./scripts/adr.js"
+  },
+  "workspaces": {
+    "packages": [
+      ".config/eslint/common",
+      ".config/eslint/server",
+      ".config/prettier",
+      "access/common",
+      "access/task",
+      "app/client",
+      "app/server",
+      "engine/game",
+      "engine/validation",
+      "manager/administration",
+      "utility/common"
+    ],
+    "nohoist": [
+      "**/@types/jest",
+      "**/@types/mocha",
+      "**/@types/testing-library__jest-dom",
+      "**/babel-loader",
+      "**/jest",
+      "**/module-alias",
+      "**/typeorm",
+      "**/typeorm/**",
+      "**/webpack"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prepush-if-changed": "^1.0.8",
+    "prettier": "^2.3.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,html}": "prettier --write"
+  },
+  "prepush-if-changed": {
+    "access/common/**/*": "cd access/common && yarn lint && yarn rebuild && yarn test:ci",
+    "access/task/**/*": "cd access/task && yarn lint && yarn rebuild && yarn test:ci",
+    "app/client/**/*": "cd app/client && yarn lint && yarn rebuild && yarn test:ci",
+    "app/server/**/*": "cd app/server && yarn lint && yarn rebuild && yarn test:ci",
+    "engine/game/**/*": "cd engine/game && yarn lint && yarn rebuild && yarn test:ci",
+    "engine/validation/**/*": "cd engine/validation && yarn lint && yarn rebuild && yarn test:ci",
+    "manager/administration/**/*": "cd manager/administration && yarn lint && yarn rebuild && yarn test:ci",
+    "utility/common/**/*": "cd utility/common && yarn lint && yarn rebuild && yarn test:ci"
+  },
+  "dependencies": {
+    "comment-json": "^4.1.0",
+    "fs-extra": "^10.0.0",
+    "log-symbols": "^4"
+  }
+}

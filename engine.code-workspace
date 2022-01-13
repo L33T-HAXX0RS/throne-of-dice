@@ -1,0 +1,26 @@
+{
+  "folders": [
+    { "name": "@access/common", "path": "access/common" },
+    { "name": "@access/task", "path": "access/task" },
+    { "name": "@engine/game", "path": "engine/game" },
+    { "name": "@engine/validation", "path": "engine/validation" },
+    { "name": "@utility/common", "path": "utility/common" }
+  ],
+  "launch": { "configurations": [], "compounds": [] },
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      ".config/**": true,
+      "access/**": true,
+      "app/**": true,
+      "engine/**": true,
+      "manager/**": true,
+      "scripts/**": true,
+      "utility/**": true
+    }
+  }
+}

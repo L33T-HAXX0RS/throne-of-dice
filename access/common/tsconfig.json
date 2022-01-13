@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "composite": true,
+    "lib": ["es5", "es6"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "~/*": ["./src/*"],
+      "@utility/common/*": ["../../utility/common/src/*"],
+      "@utility/common": ["../../utility/common/src"]
+    }
+  },
+  "include": ["types/*", "src/**/*"],
+  "references": [
+    {
+      "path": "../../utility/common"
+    }
+  ]
+}

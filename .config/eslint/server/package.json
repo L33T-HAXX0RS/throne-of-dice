@@ -1,0 +1,24 @@
+{
+  "name": "@config/eslint-config-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "scripts": {
+    "clean": "exit 0",
+    "rebuild": "exit 0",
+    "lint": "exit 0",
+    "lint:fix": "exit 0",
+    "test": "exit 0",
+    "test:unit": "exit 0",
+    "test:integration": "exit 0",
+    "test:ci": "exit 0",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "typescript": "^4.3.5"
+  }
+}

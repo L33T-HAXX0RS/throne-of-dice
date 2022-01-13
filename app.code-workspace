@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "path": "app/client",
+      "name": "@app/client"
+    },
+    {
+      "path": "app/server",
+      "name": "@app/server"
+    },
+    {
+      "path": "utility/common",
+      "name": "@utility/common"
+    }
+  ],
+  "launch": {
+    "configurations": [],
+    "compounds": [
+      {
+        "presentation": {
+          "hidden": false,
+          "group": "",
+          "order": 1
+        },
+        "name": "Debug",
+        "configurations": ["Watch @utility/common", "Debug Server", "Debug Client"]
+      }
+    ]
+  }
+}

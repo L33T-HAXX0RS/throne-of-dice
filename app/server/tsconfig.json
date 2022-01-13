@@ -1,0 +1,43 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "composite": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "~/*": ["./src/*"],
+      "@manager/administration": ["../../manager/administration/src"],
+      "@manager/administration/*": ["../../manager/administration/src/*"],
+      "@access/common": ["../../access/common/src"],
+      "@access/common/*": ["../../access/common/src/*"],
+      "@access/task": ["../../access/task/src"],
+      "@access/task/*": ["../../access/task/src/*"],
+      "@engine/validation": ["../../engine/validation/src"],
+      "@engine/validation/*": ["../../engine/validation/src/*"],
+      "@utility/common": ["../../utility/common/src"],
+      "@utility/common/*": ["../../utility/common/src/*"]
+    }
+  },
+  "include": ["types/*", "src/**/*"],
+  "references": [
+    {
+      "path": "../../access/common"
+    },
+    {
+      "path": "../../access/task"
+    },
+    {
+      "path": "../../engine/validation"
+    },
+    {
+      "path": "../../manager/administration"
+    },
+    {
+      "path": "../../utility/common"
+    }
+  ]
+}

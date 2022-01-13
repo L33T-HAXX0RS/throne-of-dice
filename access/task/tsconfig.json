@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "baseUrl": ".",
+    "composite": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "~/*": ["./src/*"],
+      "@access/common": ["../common/src"],
+      "@access/common/*": ["../common/src/*"],
+      "@utility/common": ["../../utility/common/src"],
+      "@utility/common/*": ["../../utility/common/src/*"]
+    }
+  },
+  "include": ["types/*", "src/**/*"],
+  "references": [
+    {
+      "path": "../common"
+    },
+    {
+      "path": "../../utility/common"
+    }
+  ]
+}
