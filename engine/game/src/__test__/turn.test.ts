@@ -6,7 +6,48 @@ describe('Turns', () => {
   const initialState: GameState = {
     turn: 1,
     phase: Phase.Upkeep,
-    players: [],
+    players: [
+      {
+        name: 'Bruce',
+        character: { name: 'Batman', abilities: [] },
+        health: 50,
+        combatPoints: 2,
+        statusEffects: [],
+        hand: [],
+        maxHandSize: 6,
+        rollsThisPhase: 0,
+      },
+      {
+        name: 'Dick',
+        character: { name: 'Robin', abilities: [] },
+        health: 50,
+        combatPoints: 2,
+        statusEffects: [],
+        hand: [],
+        maxHandSize: 6,
+        rollsThisPhase: 0,
+      },
+      {
+        name: 'Clark',
+        character: { name: 'Superman', abilities: [] },
+        health: 50,
+        combatPoints: 2,
+        statusEffects: [],
+        hand: [],
+        maxHandSize: 6,
+        rollsThisPhase: 0,
+      },
+      {
+        name: 'Diana',
+        character: { name: 'Wonder Woman', abilities: [] },
+        health: 50,
+        combatPoints: 2,
+        statusEffects: [],
+        hand: [],
+        maxHandSize: 6,
+        rollsThisPhase: 0,
+      },
+    ],
     currentPlayer: 0,
   }
   const engine = new GameEngine()
@@ -34,5 +75,38 @@ describe('Turns', () => {
       }),
     )
     expect(state.phase).toBe(Phase.Upkeep)
+  })
+
+  test('should switch players', () => {
+    expect(initialState.currentPlayer).toBe(0)
+
+    let state = expectOk(
+      engine.execute(initialState, {
+        type: 'force-next-turn',
+      }),
+    )
+    expect(state.currentPlayer).toBe(1)
+
+    state = expectOk(
+      engine.execute(state, {
+        type: 'force-next-turn',
+      }),
+    )
+    expect(state.currentPlayer).toBe(2)
+
+    state = expectOk(
+      engine.execute(state, {
+        type: 'force-next-turn',
+      }),
+    )
+    expect(state.currentPlayer).toBe(3)
+
+    // Loops around to the first player
+    state = expectOk(
+      engine.execute(state, {
+        type: 'force-next-turn',
+      }),
+    )
+    expect(state.currentPlayer).toBe(0)
   })
 })

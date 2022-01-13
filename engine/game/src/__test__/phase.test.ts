@@ -6,7 +6,28 @@ describe('Phases', () => {
   const initialState: GameState = {
     turn: 1,
     phase: Phase.Upkeep,
-    players: [],
+    players: [
+      {
+        name: 'Jelan',
+        character: { name: 'A', abilities: [] },
+        health: 50,
+        combatPoints: 2,
+        statusEffects: [],
+        hand: [],
+        maxHandSize: 6,
+        rollsThisPhase: 0,
+      },
+      {
+        name: 'Don',
+        character: { name: 'B', abilities: [] },
+        health: 50,
+        combatPoints: 2,
+        statusEffects: [],
+        hand: [],
+        maxHandSize: 6,
+        rollsThisPhase: 0,
+      },
+    ],
     currentPlayer: 0,
   }
 
@@ -81,5 +102,14 @@ describe('Phases', () => {
     )
 
     expect(state.turn).toBe(2)
+  })
+
+  test('should reset players rollsThisPhase', () => {
+    let state = {
+      ...initialState,
+      players: [{ ...initialState.players[0], rollsThisPhase: 3 }],
+    }
+    state = expectOk(engine.execute(state, { type: 'force-next-phase' }))
+    expect(state.players[0].rollsThisPhase).toBe(0)
   })
 })

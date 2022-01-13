@@ -37,6 +37,7 @@ export interface Player {
   statusEffects: StatusEffect[]
   hand: Card[]
   maxHandSize: number
+  rollsThisPhase: number
 }
 
 export type Action =

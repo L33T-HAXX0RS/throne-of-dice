@@ -29,6 +29,7 @@ describe('Player', () => {
           statusEffects: [],
           hand: [],
           maxHandSize: 6,
+          rollsThisPhase: 0,
         },
       }),
     )

@@ -27,19 +27,30 @@ export class GameEngine implements IGameEngine {
         ]
         const nextPhase =
           phaseOrder[(phaseOrder.indexOf(state.phase) + 1) % phaseOrder.length]
-        return Result.Ok({
+        const players = [...state.players]
+        players[state.currentPlayer].rollsThisPhase = 0
+        const nextState = {
           ...state,
           phase: nextPhase,
-          turn: nextPhase === phaseOrder[0] ? state.turn + 1 : state.turn,
-        })
+          players,
+        }
+        if (nextPhase === phaseOrder[0]) {
+          return this.execute(nextState, { type: 'force-next-turn' })
+        }
+        return Result.Ok(nextState)
       }
 
-      case 'force-next-turn':
+      case 'force-next-turn': {
+        const players = [...state.players]
+        players[state.currentPlayer].rollsThisPhase = 0
         return Result.Ok({
           ...state,
           turn: state.turn + 1,
           phase: Phase.Upkeep,
+          currentPlayer: (state.currentPlayer + 1) % state.players.length,
+          players,
         })
+      }
     }
     return Result.Ok(state)
   }
