@@ -21,6 +21,9 @@
     "format": "prettier --write .",
     "preinstall": "path-exists ../../scripts/verify-dependency && node ../../scripts/verify-dependency.js || exit 0"
   },
+  "eslintConfig": {
+    "extends": "@config/eslint-config-server"
+  },
   "prettier": "@config/prettier",
   "dependencies": {},
   "devDependencies": {
