@@ -18,18 +18,46 @@ describe('effectParser', () => {
   test('should be able to parse "Deal X dmg"', () => {
     let result = effectParser.parseToEnd('Deal 4 dmg')
     assertSuccessfulParse(result)
-    assertEffectType(result, 'deal-dmg')
+    assertEffectType(result, 'deal-damage')
     expect(result.damage).toBe(4)
 
     result = effectParser.parseToEnd('Deal 5 dmg')
     assertSuccessfulParse(result)
-    assertEffectType(result, 'deal-dmg')
+    assertEffectType(result, 'deal-damage')
     expect(result.damage).toBe(5)
 
     result = effectParser.parseToEnd('Deal 12 dmg')
     assertSuccessfulParse(result)
-    assertEffectType(result, 'deal-dmg')
+    assertEffectType(result, 'deal-damage')
     expect(result.damage).toBe(12)
+  })
+
+  test('should be able to parse "Deal X collateral dmg"', () => {
+    let result = effectParser.parseToEnd('Deal 2 collateral dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('collateral')
+    expect(result.damage).toBe(2)
+
+    result = effectParser.parseToEnd('Deal 20 collateral dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('collateral')
+    expect(result.damage).toBe(20)
+  })
+
+  test('should be able to parse "Deal X undefendable dmg"', () => {
+    let result = effectParser.parseToEnd('Deal 2 undefendable dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('undefendable')
+    expect(result.damage).toBe(2)
+
+    result = effectParser.parseToEnd('Deal 20 undefendable dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('undefendable')
+    expect(result.damage).toBe(20)
   })
 
   test('should be able to parse "Gain X {status:Status Effect}"', () => {

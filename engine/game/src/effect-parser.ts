@@ -5,8 +5,11 @@ import { ws } from 'parsnip-ts/whitespace'
 
 export type Effect =
   | {
-      type: 'deal-dmg'
+      type: 'deal-damage'
+      damageType: 'normal' | 'collateral' | 'undefendable'
       damage: number
+      statusMultiplier: string | null
+      dieMultiplier: string | null
     }
   | {
       type: 'add-status-effect'
@@ -26,15 +29,25 @@ const statusEffect = tagged(text('status:').and(regexp(/[^}]+/y)))
 const deal = token(/Deal/iy)
 const gain = token(/Gain/iy)
 const inflict = token(/Inflict/iy)
+const collateral = token(/collateral/y)
+const undefendable = token(/undefendable/y)
 const dmg = token(/dmg/y)
 
-const dealXdmg: Parser<Effect> = deal
-  .and(integer)
-  .bind((x) => dmg.and(constant(x)))
-  .map((x) => ({
-    type: 'deal-dmg',
-    damage: x,
-  }))
+const dealXdmg: Parser<Effect> = deal.and(integer).bind(
+  (damage): Parser<Effect> =>
+    collateral
+      .or(undefendable)
+      .or(constant('normal'))
+      .bind((damageType) =>
+        dmg.map(() => ({
+          type: 'deal-damage',
+          damageType: damageType as 'collateral' | 'undefendable' | 'normal',
+          damage,
+          statusMultiplier: null,
+          dieMultiplier: null,
+        })),
+      ),
+)
 
 const gainXStatusEffect: Parser<Effect> = gain.and(integer).bind((count) =>
   statusEffect.map((statusEffect) => ({
