@@ -163,4 +163,50 @@ describe('effectParser', () => {
     expect(result.statusEffect).toBe('Git Rekt')
     expect(result.count).toBe(1)
   })
+
+  test('should be able to parse "On {die:Die Type}, add N dmg"', () => {
+    let result = effectParser.parseToEnd('On {die:Fire}, add 3 dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'on-die')
+    expect(result.dieType).toBe('Fire')
+
+    assertEffectType(result.effect, 'add-damage')
+    expect(result.effect.damage).toBe(3)
+
+    result = effectParser.parseToEnd('On {die:Fire}, add 30 dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'on-die')
+    expect(result.dieType).toBe('Fire')
+
+    assertEffectType(result.effect, 'add-damage')
+    expect(result.effect.damage).toBe(30)
+  })
+
+  test('should be able to parse "On {die:Die Type}, inflict {status:Status Effect}"', () => {
+    const result = effectParser.parseToEnd(
+      'On {die:Fire}, inflict {status:Burn}',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'on-die')
+    expect(result.dieType).toBe('Fire')
+
+    assertEffectType(result.effect, 'add-status-effect')
+    expect(result.effect.statusEffect).toBe('Burn')
+    expect(result.effect.target).toBe('other')
+    expect(result.effect.count).toBe(1)
+  })
+
+  test('should be able to parse "On {die:Die Type}, gain N {status:Status Effect}"', () => {
+    const result = effectParser.parseToEnd(
+      'On {die:Fire}, gain 10 {status:Pyro Mastery}',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'on-die')
+    expect(result.dieType).toBe('Fire')
+
+    assertEffectType(result.effect, 'add-status-effect')
+    expect(result.effect.statusEffect).toBe('Pyro Mastery')
+    expect(result.effect.target).toBe('self')
+    expect(result.effect.count).toBe(10)
+  })
 })

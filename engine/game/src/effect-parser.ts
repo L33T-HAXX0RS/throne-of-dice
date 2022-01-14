@@ -17,6 +17,17 @@ export type Effect =
       statusEffect: string
       count: number
     }
+  | {
+      type: 'add-damage'
+      damage: number
+      statusMultiplier: string | null
+      dieMultiplier: string | null
+    }
+  | {
+      type: 'on-die'
+      dieType: string
+      effect: Effect
+    }
 
 const token = createToken(ws)
 const tagged = <T>(parser: Parser<T>) =>
@@ -61,7 +72,7 @@ const multiplier: Parser<Multiplier> = integer.bind((value) =>
   }),
 )
 
-const dealXdmg: Parser<Effect> = deal.and(multiplier).bind(
+const dealDamage: Parser<Effect> = deal.and(multiplier).bind(
   (multiplier): Parser<Effect> =>
     collateral
       .or(undefendable)
@@ -77,7 +88,7 @@ const dealXdmg: Parser<Effect> = deal.and(multiplier).bind(
       ),
 )
 
-const gainXStatusEffect: Parser<Effect> = gain.and(integer).bind((count) =>
+const gainStatusEffect: Parser<Effect> = gain.and(integer).bind((count) =>
   statusEffect.map((statusEffect) => ({
     type: 'add-status-effect',
     target: 'self',
@@ -95,6 +106,36 @@ const inflictStatusEffect: Parser<Effect> = inflict
     count: 1,
   }))
 
-export const effectParser = dealXdmg
-  .or(gainXStatusEffect)
-  .or(inflictStatusEffect)
+const effect = dealDamage.or(gainStatusEffect).or(inflictStatusEffect)
+
+const addDamage: Parser<Effect> = token(/add/iy)
+  .and(multiplier)
+  .bind(
+    (multiplier): Parser<Effect> =>
+      collateral
+        .or(undefendable)
+        .or(constant('normal'))
+        .bind((damageType) =>
+          dmg.map(() => ({
+            type: 'add-damage',
+            damageType: damageType as 'collateral' | 'undefendable' | 'normal',
+            damage: multiplier.value,
+            statusMultiplier: multiplier.statusEffect,
+            dieMultiplier: multiplier.die,
+          })),
+        ),
+  )
+
+const onDie: Parser<Effect> = token(/on/iy)
+  .and(die)
+  .bind((dieType) =>
+    token(/,/y)
+      .and(addDamage.or(effect))
+      .map((effect) => ({
+        type: 'on-die',
+        dieType,
+        effect,
+      })),
+  )
+
+export const effectParser = onDie.or(effect)
