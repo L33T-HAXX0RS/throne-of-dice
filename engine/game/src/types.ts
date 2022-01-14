@@ -3,8 +3,6 @@ export enum RollType {
   Defensive,
 }
 
-export type AbilityType = 'passive' | 'offensive' | 'defensive' | 'ultimate'
-
 export type DieValue = 1 | 2 | 3 | 4 | 5 | 6
 export type DieType = string
 export type DieTypes = [DieType, DieType, DieType, DieType, DieType, DieType]
@@ -16,12 +14,27 @@ export interface RollMatch {
   pattern: DicePattern
 }
 
-export interface OffensiveAbility {
-  name: string
-  type: AbilityType
-  variants: AbilityVariant[]
-  effects?: string[]
-}
+export type OffensiveAbility =
+  | {
+      name: string
+      pattern: DicePattern
+      effects: string[]
+    }
+  | {
+      name: string
+      variants: AbilityVariant[]
+    }
+
+export const hasVariants = (
+  ability: OffensiveAbility,
+): ability is OffensiveAbility & { variants: AbilityVariant[] } =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Array.isArray((ability as any).variants)
+export const hasEffects = (
+  ability: OffensiveAbility,
+): ability is OffensiveAbility & { effects: string[] } =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Array.isArray((ability as any).effects)
 
 export interface DefensiveAbility {
   name: string
@@ -36,7 +49,7 @@ export interface UltimateAbility {
 
 export interface AbilityVariant {
   pattern: DicePattern
-  effects?: string[]
+  effects: string[]
 }
 
 export interface StatusEffect {
