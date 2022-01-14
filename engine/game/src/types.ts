@@ -30,6 +30,7 @@ export interface DefensiveAbility {
 }
 
 export interface UltimateAbility {
+  name: string
   effects: string[]
 }
 

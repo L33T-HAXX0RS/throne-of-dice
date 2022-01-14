@@ -248,4 +248,46 @@ describe('effectParser', () => {
     expect(result.statusEffect).toBe('Purity')
     expect(result.count).toBe(4)
   })
+
+  test('should be able to parse "Heal N"', () => {
+    let result = effectParser.parseToEnd('Heal 1')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'heal')
+    expect(result.count).toBe(1)
+
+    result = effectParser.parseToEnd('Heal 100')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'heal')
+    expect(result.count).toBe(100)
+  })
+
+  test('should be able to parse "Roll N{die|dice}"', () => {
+    let result = effectParser.parseToEnd('Roll 3{dice}')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'roll')
+    expect(result.count).toBe(3)
+
+    result = effectParser.parseToEnd('Roll 1{die}')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'roll')
+    expect(result.count).toBe(1)
+  })
+
+  test('should be able to parse "Deal dmg equal to {roll:total}"', () => {
+    const result = effectParser.parseToEnd('Deal dmg equal to {roll:total}')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'equal-to-roll')
+    expect(result.damage).toBe(true)
+  })
+
+  test('should be able to parse "If {roll:total} is at least N, do effect"', () => {
+    const result = effectParser.parseToEnd(
+      'If {roll:total} is at least 15, inflict {status:Knockdown}',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'if-roll-value')
+    expect(result.comparison).toBe('>=')
+    assertEffectType(result.effect, 'add-status-effect')
+    expect(result.effect.statusEffect).toBe('Knockdown')
+  })
 })

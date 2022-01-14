@@ -34,6 +34,23 @@ export type Effect =
       statusEffect: string
       count: number
     }
+  | {
+      type: 'heal'
+      count: number
+    }
+  | {
+      type: 'roll'
+      count: number
+    }
+  | {
+      type: 'equal-to-roll'
+      damage: boolean
+    }
+  | {
+      type: 'if-roll-value'
+      comparison: '>='
+      effect: Effect
+    }
 
 const token = createToken(ws)
 const tagged = <T>(parser: Parser<T>) =>
@@ -117,7 +134,11 @@ const inflictStatusEffect: Parser<Effect> = inflict
     count: 1,
   }))
 
-const effect = dealDamage.or(gainStatusEffect).or(inflictStatusEffect)
+const heal: Parser<Effect> = token(/Heal/iy)
+  .and(integer)
+  .map((count) => ({ type: 'heal', count }))
+
+const effect = dealDamage.or(gainStatusEffect).or(inflictStatusEffect).or(heal)
 
 const addDamage: Parser<Effect> = token(/add/iy)
   .and(multiplier)
@@ -159,4 +180,38 @@ const removeUpToNStatusEffects: Parser<Effect> = token(/Remove up to/iy)
     })),
   )
 
-export const effectParser = onDie.or(removeUpToNStatusEffects).or(effect)
+const rollNDice: Parser<Effect> = token(/Roll/iy)
+  .and(integer)
+  .bind((count) =>
+    token(/{(die|dice)}/iy).map(() => ({
+      type: 'roll',
+      count,
+    })),
+  )
+
+const equalToRoll: Parser<Effect> = token(
+  /Deal dmg equal to {roll:total}/iy,
+).map(() => ({
+  type: 'equal-to-roll',
+  damage: true,
+}))
+
+const ifRoll: Parser<Effect> = token(/If {roll:total} is at least/iy)
+  .and(integer)
+  .bind((count) =>
+    token(/,/iy)
+      .and(effect)
+      .map((effect) => ({
+        type: 'if-roll-value',
+        comparison: '>=',
+        count,
+        effect,
+      })),
+  )
+
+export const effectParser = onDie
+  .or(removeUpToNStatusEffects)
+  .or(rollNDice)
+  .or(equalToRoll)
+  .or(ifRoll)
+  .or(effect)

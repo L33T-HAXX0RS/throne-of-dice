@@ -7,7 +7,7 @@ export const emptyCharacter: Character = {
   abilities: {
     offensive: [],
     defensive: [],
-    ultimate: { effects: [] },
+    ultimate: { name: 'ultimate', effects: [] },
   },
 }
 
@@ -134,6 +134,7 @@ export const topDollarCharacter: Character = {
       },
     ],
     ultimate: {
+      name: "Devil's Night",
       effects: [
         'Inflict {status:Knockdown}',
         'Inflict {status:Burn}',
