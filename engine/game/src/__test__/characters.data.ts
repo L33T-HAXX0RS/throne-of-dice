@@ -13,7 +13,7 @@ export const emptyCharacter: Character = {
 
 export const topDollarCharacter: Character = {
   name: 'Top Dollar',
-  dieTypes: ['fire', 'fire', 'fire', 'bonfire', 'gas', 'match'],
+  dieTypes: ['Fire', 'Fire', 'Fire', 'Bonfire', 'Gas', 'Match'],
   statusEffects: [
     {
       name: 'Knockdown',
@@ -47,15 +47,15 @@ export const topDollarCharacter: Character = {
         type: 'offensive',
         variants: [
           {
-            pattern: ['fire', 'fire', 'fire'],
+            pattern: ['Fire', 'Fire', 'Fire'],
             effects: ['Deal 4 dmg'],
           },
           {
-            pattern: ['fire', 'fire', 'fire', 'fire'],
+            pattern: ['Fire', 'Fire', 'Fire', 'Fire'],
             effects: ['Deal 6 dmg'],
           },
           {
-            pattern: ['fire', 'fire', 'fire', 'fire', 'fire'],
+            pattern: ['Fire', 'Fire', 'Fire', 'Fire', 'Fire'],
             effects: ['Deal 8 dmg'],
           },
         ],
@@ -64,7 +64,7 @@ export const topDollarCharacter: Character = {
       {
         name: 'Burnt Out',
         type: 'offensive',
-        variants: [{ pattern: ['gas', 'gas'] }],
+        variants: [{ pattern: ['Gas', 'Gas'] }],
         effects: [
           'Gain 2x{status:Pyro Mastery}',
           'Deal 1x{status:Pyro Mastery} collateral dmg to all opponents',
@@ -73,7 +73,7 @@ export const topDollarCharacter: Character = {
       {
         name: 'Fireblast',
         type: 'offensive',
-        variants: [{ pattern: ['fire', 'fire', 'fire', 'match'] }],
+        variants: [{ pattern: ['Fire', 'Fire', 'Fire', 'Match'] }],
         effects: [
           'Deal 6 dmg',
           'Roll 1 {die}',
@@ -86,7 +86,7 @@ export const topDollarCharacter: Character = {
       {
         name: 'Combustion',
         type: 'offensive',
-        variants: [{ pattern: ['fire', 'bonfire', 'gas', 'match'] }],
+        variants: [{ pattern: ['Fire', 'Bonfire', 'Gas', 'Match'] }],
         effects: [
           'Gain 1 {status:Pyro Mastery}',
           'Remove up to 4 {status:Pyro Mastery}',
@@ -114,7 +114,7 @@ export const topDollarCharacter: Character = {
       {
         name: 'Air Strike',
         type: 'offensive',
-        variants: [{ pattern: ['match', 'match', 'match', 'match'] }],
+        variants: [{ pattern: ['Match', 'Match', 'Match', 'Match'] }],
         effects: [
           'Inflict {status:Stun}',
           'Gain 2 {status:Pyro Mastery}',

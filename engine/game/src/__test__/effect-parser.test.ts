@@ -60,6 +60,78 @@ describe('effectParser', () => {
     expect(result.damage).toBe(20)
   })
 
+  test('should be able to parse "Deal Nx{status:Status Effect} dmg"', () => {
+    let result = effectParser.parseToEnd('Deal 1x{status:Pyro Mastery} dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('normal')
+    expect(result.statusMultiplier).toBe('Pyro Mastery')
+    expect(result.damage).toBe(1)
+
+    result = effectParser.parseToEnd('Deal 50x{status:Pyro Mastery} dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('normal')
+    expect(result.statusMultiplier).toBe('Pyro Mastery')
+    expect(result.damage).toBe(50)
+  })
+
+  test('should be able to parse "Deal Nx{status:Status Effect} collateral dmg"', () => {
+    const result = effectParser.parseToEnd(
+      'Deal 1x{status:Pyro Mastery} collateral dmg',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('collateral')
+    expect(result.statusMultiplier).toBe('Pyro Mastery')
+    expect(result.damage).toBe(1)
+  })
+
+  test('should be able to parse "Deal Nx{status:Status Effect} undefendable dmg"', () => {
+    const result = effectParser.parseToEnd(
+      'Deal 1x{status:Pyro Mastery} undefendable dmg',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('undefendable')
+    expect(result.statusMultiplier).toBe('Pyro Mastery')
+    expect(result.damage).toBe(1)
+  })
+
+  test('should be able to parse "Deal Nx{die:Die Type} dmg"', () => {
+    let result = effectParser.parseToEnd('Deal 2x{die:Fire} dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('normal')
+    expect(result.dieMultiplier).toBe('Fire')
+    expect(result.damage).toBe(2)
+
+    result = effectParser.parseToEnd('Deal 20x{die:Fire} dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('normal')
+    expect(result.dieMultiplier).toBe('Fire')
+    expect(result.damage).toBe(20)
+  })
+
+  test('should be able to parse "Deal Nx{die:Die Type} collateral dmg"', () => {
+    const result = effectParser.parseToEnd('Deal 2x{die:Fire} collateral dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('collateral')
+    expect(result.dieMultiplier).toBe('Fire')
+    expect(result.damage).toBe(2)
+  })
+
+  test('should be able to parse "Deal Nx{die:Die Type} undefendable dmg"', () => {
+    const result = effectParser.parseToEnd('Deal 2x{die:Fire} undefendable dmg')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damageType).toBe('undefendable')
+    expect(result.dieMultiplier).toBe('Fire')
+    expect(result.damage).toBe(2)
+  })
+
   test('should be able to parse "Gain X {status:Status Effect}"', () => {
     let result = effectParser.parseToEnd('Gain 1 {status:Chi}')
     assertSuccessfulParse(result)

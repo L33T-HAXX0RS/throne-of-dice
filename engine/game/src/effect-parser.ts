@@ -1,5 +1,5 @@
 import { integer } from 'parsnip-ts/numbers'
-import { constant, Parser, regexp, text } from 'parsnip-ts/parser'
+import { constant, maybe, Parser, regexp, text } from 'parsnip-ts/parser'
 import { createToken } from 'parsnip-ts/token'
 import { ws } from 'parsnip-ts/whitespace'
 
@@ -25,6 +25,7 @@ const tagged = <T>(parser: Parser<T>) =>
     .bind((result) => token(/}/y).and(constant(result)))
 
 const statusEffect = tagged(text('status:').and(regexp(/[^}]+/y)))
+const die = tagged(text('die:').and(regexp(/[^}]+/y)))
 
 const deal = token(/Deal/iy)
 const gain = token(/Gain/iy)
@@ -33,8 +34,35 @@ const collateral = token(/collateral/y)
 const undefendable = token(/undefendable/y)
 const dmg = token(/dmg/y)
 
-const dealXdmg: Parser<Effect> = deal.and(integer).bind(
-  (damage): Parser<Effect> =>
+interface Multiplier {
+  value: number
+  statusEffect: string | null
+  die: string | null
+}
+
+const multiplier: Parser<Multiplier> = integer.bind((value) =>
+  maybe(
+    token(/x/y)
+      .and(
+        statusEffect
+          .map((statusEffect) => ({ statusEffect, die: null }))
+          .or(die.map((die) => ({ die, statusEffect: null }))),
+      )
+      .map(({ statusEffect, die }) => ({
+        value,
+        statusEffect,
+        die,
+      })),
+  ).map((result) => {
+    if (result === null) {
+      return { value, statusEffect: null, die: null }
+    }
+    return result
+  }),
+)
+
+const dealXdmg: Parser<Effect> = deal.and(multiplier).bind(
+  (multiplier): Parser<Effect> =>
     collateral
       .or(undefendable)
       .or(constant('normal'))
@@ -42,9 +70,9 @@ const dealXdmg: Parser<Effect> = deal.and(integer).bind(
         dmg.map(() => ({
           type: 'deal-damage',
           damageType: damageType as 'collateral' | 'undefendable' | 'normal',
-          damage,
-          statusMultiplier: null,
-          dieMultiplier: null,
+          damage: multiplier.value,
+          statusMultiplier: multiplier.statusEffect,
+          dieMultiplier: multiplier.die,
         })),
       ),
 )
