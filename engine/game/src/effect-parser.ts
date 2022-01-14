@@ -51,6 +51,10 @@ export type Effect =
       comparison: '>='
       effect: Effect
     }
+  | {
+      type: 'receive-damage-in-return'
+      count: number
+    }
 
 const token = createToken(ws)
 const tagged = <T>(parser: Parser<T>) =>
@@ -209,9 +213,19 @@ const ifRoll: Parser<Effect> = token(/If {roll:total} is at least/iy)
       })),
   )
 
+const receiveDamageInReturn: Parser<Effect> = token(/receive/iy)
+  .and(integer)
+  .bind((count) =>
+    token(/dmg in return/iy).map(() => ({
+      type: 'receive-damage-in-return',
+      count,
+    })),
+  )
+
 export const effectParser = onDie
   .or(removeUpToNStatusEffects)
   .or(rollNDice)
   .or(equalToRoll)
   .or(ifRoll)
+  .or(receiveDamageInReturn)
   .or(effect)

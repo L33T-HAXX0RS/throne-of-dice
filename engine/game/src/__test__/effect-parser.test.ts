@@ -290,4 +290,11 @@ describe('effectParser', () => {
     assertEffectType(result.effect, 'add-status-effect')
     expect(result.effect.statusEffect).toBe('Knockdown')
   })
+
+  test('should be able to parse "receive N dmg in return"', () => {
+    const result = effectParser.parseToEnd('Receive 5 dmg in return')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'receive-damage-in-return')
+    expect(result.count).toBe(5)
+  })
 })
