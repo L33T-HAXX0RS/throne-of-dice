@@ -16,28 +16,26 @@ export interface RollMatch {
   pattern: DicePattern
 }
 
-export type Effect = string
-
 export interface OffensiveAbility {
   name: string
   type: AbilityType
   variants: AbilityVariant[]
-  effects?: Effect[]
+  effects?: string[]
 }
 
 export interface DefensiveAbility {
   name: string
   numOfDice: number
-  effects: Effect[]
+  effects: string[]
 }
 
 export interface UltimateAbility {
-  effects: Effect[]
+  effects: string[]
 }
 
 export interface AbilityVariant {
   pattern: DicePattern
-  effects?: Effect[]
+  effects?: string[]
 }
 
 export interface StatusEffect {
