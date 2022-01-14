@@ -1,5 +1,6 @@
 import { GameState, Phase } from '~/types'
 import { GameEngine } from '..'
+import { emptyCharacter } from './characters.data'
 import { expectOk } from './util'
 
 describe('Phases', () => {
@@ -10,10 +11,8 @@ describe('Phases', () => {
       {
         name: 'Jelan',
         character: {
+          ...emptyCharacter,
           name: 'A',
-          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
-          abilities: [],
-          statusEffects: [],
         },
         health: 50,
         combatPoints: 2,
@@ -25,10 +24,8 @@ describe('Phases', () => {
       {
         name: 'Don',
         character: {
+          ...emptyCharacter,
           name: 'B',
-          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
-          abilities: [],
-          statusEffects: [],
         },
         health: 50,
         combatPoints: 2,

@@ -1,5 +1,6 @@
 import { GameState, Phase } from '~/types'
 import { GameEngine } from '..'
+import { emptyCharacter } from './characters.data'
 import { expectOk } from './util'
 
 describe('Turns', () => {
@@ -10,10 +11,8 @@ describe('Turns', () => {
       {
         name: 'Bruce',
         character: {
+          ...emptyCharacter,
           name: 'Batman',
-          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
-          abilities: [],
-          statusEffects: [],
         },
         health: 50,
         combatPoints: 2,
@@ -25,10 +24,8 @@ describe('Turns', () => {
       {
         name: 'Dick',
         character: {
+          ...emptyCharacter,
           name: 'Robin',
-          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
-          abilities: [],
-          statusEffects: [],
         },
         health: 50,
         combatPoints: 2,
@@ -40,10 +37,8 @@ describe('Turns', () => {
       {
         name: 'Clark',
         character: {
+          ...emptyCharacter,
           name: 'Superman',
-          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
-          abilities: [],
-          statusEffects: [],
         },
         health: 50,
         combatPoints: 2,
@@ -55,10 +50,8 @@ describe('Turns', () => {
       {
         name: 'Diana',
         character: {
+          ...emptyCharacter,
           name: 'Wonder Woman',
-          dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
-          abilities: [],
-          statusEffects: [],
         },
         health: 50,
         combatPoints: 2,

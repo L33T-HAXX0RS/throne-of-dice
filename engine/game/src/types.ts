@@ -16,34 +16,23 @@ export interface RollMatch {
   pattern: DicePattern
 }
 
-export type Effect =
-  | {
-      type: 'increment-status-effect'
-      statusEffect: string
-      target: 'self' | 'other' | 'all'
-    }
-  | {
-      type: 'give-x-status-effect-by-existing-roll'
-      target: 'self' | 'other' | 'all'
-      statusEffect: string
-      multiplier: number
-      dieType: DieType
-    }
-  | {
-      type: 'damage'
-      damage: number
-    }
-  | {
-      type: 'collateral-damage-multiplied-by-status-effect'
-      damage: number
-      statusEffect: string
-    }
+export type Effect = string
 
-export interface Ability {
+export interface OffensiveAbility {
   name: string
   type: AbilityType
   variants: AbilityVariant[]
   effects?: Effect[]
+}
+
+export interface DefensiveAbility {
+  name: string
+  numOfDice: number
+  effects: Effect[]
+}
+
+export interface UltimateAbility {
+  effects: Effect[]
 }
 
 export interface AbilityVariant {
@@ -61,7 +50,11 @@ export interface StatusEffect {
 export interface Character {
   name: string
   dieTypes: DieTypes
-  abilities: Ability[]
+  abilities: {
+    offensive: OffensiveAbility[]
+    defensive: DefensiveAbility[]
+    ultimate: UltimateAbility
+  }
   statusEffects: StatusEffect[]
 }
 
