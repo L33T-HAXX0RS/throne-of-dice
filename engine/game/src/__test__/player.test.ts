@@ -14,6 +14,7 @@ describe('Player', () => {
     name: 'Dummy',
     dieTypes: ['a', 'b', 'c', 'd', 'e', 'f'],
     abilities: [],
+    statusEffects: [],
   }
 
   const engine = new GameEngine()

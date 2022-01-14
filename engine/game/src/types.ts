@@ -5,24 +5,64 @@ export enum RollType {
 
 export type AbilityType = 'passive' | 'offensive' | 'defensive' | 'ultimate'
 
+export type DieValue = 1 | 2 | 3 | 4 | 5 | 6
 export type DieType = string
+export type DieTypes = [DieType, DieType, DieType, DieType, DieType, DieType]
 
-export type DicePattern = DieType[]
+export type DicePattern = DieType[] | 'small-straight' | 'large-straight'
+
+export interface RollMatch {
+  partial: boolean
+  pattern: DicePattern
+}
+
+export type Effect =
+  | {
+      type: 'increment-status-effect'
+      statusEffect: string
+      target: 'self' | 'other' | 'all'
+    }
+  | {
+      type: 'give-x-status-effect-by-existing-roll'
+      target: 'self' | 'other' | 'all'
+      statusEffect: string
+      multiplier: number
+      dieType: DieType
+    }
+  | {
+      type: 'damage'
+      damage: number
+    }
+  | {
+      type: 'collateral-damage-multiplied-by-status-effect'
+      damage: number
+      statusEffect: string
+    }
 
 export interface Ability {
-  type: AbilityType
   name: string
-  patterns: DicePattern[]
+  type: AbilityType
+  variants: AbilityVariant[]
+  effects?: Effect[]
+}
+
+export interface AbilityVariant {
+  pattern: DicePattern
+  effects?: Effect[]
 }
 
 export interface StatusEffect {
   name: string
+  type: 'positive' | 'negative'
+  stackLimit: number
+  effect: 'TODO'
 }
 
 export interface Character {
   name: string
+  dieTypes: DieTypes
   abilities: Ability[]
-  dieTypes: [DieType, DieType, DieType, DieType, DieType, DieType]
+  statusEffects: StatusEffect[]
 }
 
 export interface Card {
