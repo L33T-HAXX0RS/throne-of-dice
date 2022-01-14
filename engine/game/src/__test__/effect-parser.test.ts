@@ -132,6 +132,37 @@ describe('effectParser', () => {
     expect(result.damage).toBe(2)
   })
 
+  test('should be able to parse "Deal X dmg per removed {status:Status Effect}"', () => {
+    const result = effectParser.parseToEnd(
+      'Deal 3 dmg per removed {status:Chi}',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damage).toBe(3)
+    expect(result.damageType).toBe('normal')
+    expect(result.removedStatusMultipler).toBe('Chi')
+  })
+
+  test('should be able to parse "Deal X (undefendable|collateral) dmg per removed {status:Status Effect}"', () => {
+    let result = effectParser.parseToEnd(
+      'Deal 3 collateral dmg per removed {status:Chi}',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damage).toBe(3)
+    expect(result.damageType).toBe('collateral')
+    expect(result.removedStatusMultipler).toBe('Chi')
+
+    result = effectParser.parseToEnd(
+      'Deal 3 undefendable dmg per removed {status:Chi}',
+    )
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'deal-damage')
+    expect(result.damage).toBe(3)
+    expect(result.damageType).toBe('undefendable')
+    expect(result.removedStatusMultipler).toBe('Chi')
+  })
+
   test('should be able to parse "Gain X {status:Status Effect}"', () => {
     let result = effectParser.parseToEnd('Gain 1 {status:Chi}')
     assertSuccessfulParse(result)
@@ -208,5 +239,13 @@ describe('effectParser', () => {
     expect(result.effect.statusEffect).toBe('Pyro Mastery')
     expect(result.effect.target).toBe('self')
     expect(result.effect.count).toBe(10)
+  })
+
+  test('should be able to parse "Remove up to N {status:Status Effect}"', () => {
+    const result = effectParser.parseToEnd('Remove up to 4 {status:Purity}')
+    assertSuccessfulParse(result)
+    assertEffectType(result, 'remove-up-to-n-status-effects')
+    expect(result.statusEffect).toBe('Purity')
+    expect(result.count).toBe(4)
   })
 })

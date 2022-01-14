@@ -10,6 +10,7 @@ export type Effect =
       damage: number
       statusMultiplier: string | null
       dieMultiplier: string | null
+      removedStatusMultipler: string | null
     }
   | {
       type: 'add-status-effect'
@@ -27,6 +28,11 @@ export type Effect =
       type: 'on-die'
       dieType: string
       effect: Effect
+    }
+  | {
+      type: 'remove-up-to-n-status-effects'
+      statusEffect: string
+      count: number
     }
 
 const token = createToken(ws)
@@ -72,19 +78,24 @@ const multiplier: Parser<Multiplier> = integer.bind((value) =>
   }),
 )
 
+const perRemovedStatusEffect = token(/per removed/iy).and(statusEffect)
+
 const dealDamage: Parser<Effect> = deal.and(multiplier).bind(
   (multiplier): Parser<Effect> =>
     collateral
       .or(undefendable)
       .or(constant('normal'))
       .bind((damageType) =>
-        dmg.map(() => ({
-          type: 'deal-damage',
-          damageType: damageType as 'collateral' | 'undefendable' | 'normal',
-          damage: multiplier.value,
-          statusMultiplier: multiplier.statusEffect,
-          dieMultiplier: multiplier.die,
-        })),
+        dmg
+          .and(maybe(perRemovedStatusEffect))
+          .map((removedStatusMultipler) => ({
+            type: 'deal-damage',
+            damageType: damageType as 'collateral' | 'undefendable' | 'normal',
+            damage: multiplier.value,
+            statusMultiplier: multiplier.statusEffect,
+            dieMultiplier: multiplier.die,
+            removedStatusMultipler,
+          })),
       ),
 )
 
@@ -138,4 +149,14 @@ const onDie: Parser<Effect> = token(/on/iy)
       })),
   )
 
-export const effectParser = onDie.or(effect)
+const removeUpToNStatusEffects: Parser<Effect> = token(/Remove up to/iy)
+  .and(integer)
+  .bind((count) =>
+    statusEffect.map((statusEffect) => ({
+      type: 'remove-up-to-n-status-effects',
+      statusEffect,
+      count,
+    })),
+  )
+
+export const effectParser = onDie.or(removeUpToNStatusEffects).or(effect)
