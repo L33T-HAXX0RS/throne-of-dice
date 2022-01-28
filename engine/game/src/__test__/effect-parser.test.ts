@@ -253,12 +253,16 @@ describe('effectParser', () => {
     let result = effectParser.parseToEnd('Heal 1')
     assertSuccessfulParse(result)
     assertEffectType(result, 'heal')
-    expect(result.count).toBe(1)
+    expect(result.multiplier.value).toBe(1)
+    expect(result.multiplier.die).toBe(null)
+    expect(result.multiplier.statusEffect).toBe(null)
 
     result = effectParser.parseToEnd('Heal 100')
     assertSuccessfulParse(result)
     assertEffectType(result, 'heal')
-    expect(result.count).toBe(100)
+    expect(result.multiplier.value).toBe(100)
+    expect(result.multiplier.die).toBe(null)
+    expect(result.multiplier.statusEffect).toBe(null)
   })
 
   test('should be able to parse "Roll N{die|dice}"', () => {
@@ -276,7 +280,7 @@ describe('effectParser', () => {
   test('should be able to parse "Deal dmg equal to {roll:total}"', () => {
     const result = effectParser.parseToEnd('Deal dmg equal to {roll:total}')
     assertSuccessfulParse(result)
-    assertEffectType(result, 'equal-to-roll')
+    assertEffectType(result, 'deal-dmg-equal-to-roll')
     expect(result.damage).toBe(true)
   })
 

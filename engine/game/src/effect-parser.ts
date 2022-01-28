@@ -3,6 +3,12 @@ import { constant, maybe, Parser, regexp, text } from 'parsnip-ts/parser'
 import { createToken } from 'parsnip-ts/token'
 import { ws } from 'parsnip-ts/whitespace'
 
+type Multiplier = {
+  value: number
+  statusEffect: string | null
+  die: string | null
+}
+
 export type Effect =
   | {
       type: 'deal-damage'
@@ -36,14 +42,14 @@ export type Effect =
     }
   | {
       type: 'heal'
-      count: number
+      multiplier: Multiplier
     }
   | {
       type: 'roll'
       count: number
     }
   | {
-      type: 'equal-to-roll'
+      type: 'deal-dmg-equal-to-roll'
       damage: boolean
     }
   | {
@@ -71,12 +77,6 @@ const inflict = token(/Inflict/iy)
 const collateral = token(/collateral/y)
 const undefendable = token(/undefendable/y)
 const dmg = token(/dmg/y)
-
-interface Multiplier {
-  value: number
-  statusEffect: string | null
-  die: string | null
-}
 
 const multiplier: Parser<Multiplier> = integer.bind((value) =>
   maybe(
@@ -139,8 +139,8 @@ const inflictStatusEffect: Parser<Effect> = inflict
   }))
 
 const heal: Parser<Effect> = token(/Heal/iy)
-  .and(integer)
-  .map((count) => ({ type: 'heal', count }))
+  .and(multiplier)
+  .map((multiplier) => ({ type: 'heal', multiplier }))
 
 const effect = dealDamage.or(gainStatusEffect).or(inflictStatusEffect).or(heal)
 
@@ -193,10 +193,10 @@ const rollNDice: Parser<Effect> = token(/Roll/iy)
     })),
   )
 
-const equalToRoll: Parser<Effect> = token(
+const dealDmgEqualToRoll: Parser<Effect> = token(
   /Deal dmg equal to {roll:total}/iy,
 ).map(() => ({
-  type: 'equal-to-roll',
+  type: 'deal-dmg-equal-to-roll',
   damage: true,
 }))
 
@@ -225,7 +225,7 @@ const receiveDamageInReturn: Parser<Effect> = token(/receive/iy)
 export const effectParser = onDie
   .or(removeUpToNStatusEffects)
   .or(rollNDice)
-  .or(equalToRoll)
+  .or(dealDmgEqualToRoll)
   .or(ifRoll)
   .or(receiveDamageInReturn)
   .or(effect)
