@@ -19,25 +19,33 @@ export const topDollarCharacter: Character = {
       name: 'Knockdown',
       type: 'negative',
       stackLimit: 1,
-      effect: 'TODO',
+      spendable: false,
+      // TODO
+      effects: [],
     },
     {
       name: 'Burn',
       type: 'negative',
       stackLimit: 1,
-      effect: 'TODO',
+      spendable: false,
+      // TODO
+      effects: [],
     },
     {
       name: 'Pyro Mastery',
       type: 'positive',
       stackLimit: 5,
-      effect: 'TODO',
+      spendable: false,
+      // TODO
+      effects: [],
     },
     {
       name: 'Stun',
       type: 'negative',
       stackLimit: 1,
-      effect: 'TODO',
+      spendable: false,
+      // TODO
+      effects: [],
     },
   ],
   abilities: {

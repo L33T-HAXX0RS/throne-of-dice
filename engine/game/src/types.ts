@@ -1,3 +1,5 @@
+export type PlayerType = 'target' | 'active'
+
 export enum RollType {
   Offensive,
   Defensive,
@@ -56,7 +58,8 @@ export interface StatusEffect {
   name: string
   type: 'positive' | 'negative'
   stackLimit: number
-  effect: 'TODO'
+  spendable: boolean
+  effects: string[]
 }
 
 export interface Character {
